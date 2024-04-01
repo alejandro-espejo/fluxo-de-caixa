@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fluxo de Caixa em java</title>
+    <!-- Incluindo Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/app.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container margin20">
+        <h1>Fluxo de Caixa</h1>
+        <hr>
+        <div class="caixas-principal">
+            <div class="caixa-receitas">
+                Valor Total<br> R$ [[${valorTotal}]]
+            </div>
+            <div class="caixa-receitas">
+                Receitas<br> R$ [[${totalReceitas}]]
+            </div>
+            <div class="caixa-receitas despesa">
+                Despesas<br>
+                R$ [[${totalDespesas}]]
+            </div>
+        </div>
+        <div class="dvBusca margin20">
+            <div class="dvform">
+                <form>
+                    <input type="text" class="form-control" name="tipo" placeholder="Digite o tipo que deseja">
+                    <button type="submit" class="btn btn-primary" name="tipo">Buscar</button>
+                </form>
+            </div>
+            <div class="dvAdicionar">
+                <a href="/adicionar" class="btn btn-primary">Adicionar</a>
+            </div>
+        </div>
+        <div class="margin20">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="caixa : ${caixas}">
+                        <td th:text="${caixa.tipo}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(caixa.valor, 2, 2, 'COMMA')}"></td>
+                        <td th:text="${caixa.status.valor == 1 ? 'Receita' : 'Despesa'}"></td>
+                        <td>
+                            <a th:href="@{/excluir/{id}(id=${caixa.id})}" class="btn btn-danger" onclick="return confirmExclusao()">Excluir</a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        function confirmExclusao() {
+            return confirm('Confirma?');
+        }
+    </script>
+
+    <!-- Incluindo Bootstrap JS (opcional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
